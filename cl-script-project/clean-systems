@@ -2,15 +2,16 @@
 ; -*-Lisp-*-
 (in-package #:cl-user)
 (require :uiop)
-(let ((dir-names (make-hash-table :test #'equal)))
-  (with-open-file (stream (uiop:native-namestring "~/.local/share/ocicl/systems.csv")
+(let ((this-directory-path (cl:directory-namestring cl:*load-truename*))
+      (dir-names (make-hash-table :test #'equal)))
+  (with-open-file (stream (merge-pathnames "systems.csv" this-directory-path)
                           :external-format :utf-8)
     (loop :for line := (read-line stream nil)
           :while line
           :do (let ((parts (uiop:split-string line :separator ",")))
                 (when (and parts (<= 2 (length parts)))
                   (setf (gethash (elt (uiop:split-string (cl:string-trim " " (elt parts 2)) :separator "/") 0) dir-names) t)))))
-  (loop :for full-dir-path :in (uiop:subdirectories (uiop:native-namestring "~/.local/share/ocicl/systems/"))
+  (loop :for full-dir-path :in (uiop:subdirectories (merge-pathnames "systems/" this-directory-path))
         :for dir-name := (first (last (cl:pathname-directory full-dir-path)))
         :unless (gethash dir-name dir-names)
           :do (progn
