@@ -1,0 +1,25 @@
+#!/usr/bin/env -S sbcl --script
+; -*-Lisp-*-
+(cl:require :asdf)
+(asdf:require-system 'uiop)
+
+(let ((path (cl:directory-namestring cl:*load-truename*)))
+  (asdf:initialize-source-registry
+   `(:source-registry
+     :ignore-inherited-configuration
+     (:directory ,path)
+     (:tree ,(merge-pathnames "peru-managed-systems/" path))
+     (:tree ,(merge-pathnames "systems/" path)))))
+
+;; Suppress obnoxious "Computing Hangul syllable names"
+;; (with-output-to-string (*standard-output*)
+;;   (asdf:require-system :cl-unicode))
+
+;; Suppress obnoxious asd warnings
+;; (with-output-to-string (*error-output*)
+;;   (asdf:require-system :cl-interpol))
+
+(asdf:load-asd "{{ project }}-cli.asd")
+(asdf:require-system :{{ project }}-cli)
+
+({{ project }}-cli:main)

@@ -1,0 +1,15 @@
+list:
+    just --list
+
+install-deps:
+    peru sync
+    ocicl install
+    ./clean-systems
+
+update-deps:
+    peru reup
+    ocicl latest
+    ./clean-systems
+
+build:
+    ./build

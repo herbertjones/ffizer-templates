@@ -1,0 +1,9 @@
+# imports:
+#     coalton: peru-managed-systems/coalton/
+#     pkgetset: peru-managed-systems/pkgetset/
+
+# git module coalton:
+#     url: https://github.com/coalton-lang/coalton.git
+
+# git module pkgetset:
+#     url: https://github.com/herbertjones/pkgetset.git

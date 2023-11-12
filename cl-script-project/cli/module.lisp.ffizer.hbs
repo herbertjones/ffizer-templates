@@ -1,0 +1,62 @@
+(uiop:define-package #:{{ project }}-cli
+  (:nicknames #:{{ project }}-cli/module)
+  (:use)
+  (:mix #:cl)
+  (:export
+   #:main)
+  (:documentation "Common line interface for {{ project }}."))
+(cl:in-package #:{{ project }}-cli)
+
+;; -- greet --------------------------------------------------------------------
+
+(defun greet/options ()
+  "Returns the options for the `greet' command"
+  (list
+   (clingon:make-option
+    :string
+    :description "Person to greet"
+    :short-name #\u
+    :long-name "user"
+    :initial-value "stranger"
+    :env-vars '("USER")
+    :key :user)))
+
+(defun greet/handler (cmd)
+  "Handler for the `greet' command"
+  (let ((who (clingon:getopt cmd :user)))
+    (format t "Hello, ~A!~%" who)))
+
+(defun greet/command ()
+  "A command to greet someone"
+  (clingon:make-command
+   :name "greet"
+   :description "greets people"
+   :version "0.1.0"
+   :authors '("John Doe <john.doe@example.org>")
+   :license "BSD 2-Clause"
+   :options (greet/options)
+   :handler #'greet/handler))
+
+
+;; -- top-level ----------------------------------------------------------------
+
+(defun top-level/handler (cmd)
+  "Handler for the `{{ project }}' command"
+  (clingon:print-usage cmd t))
+
+(defun top-level/command ()
+  "A command to {{ project }} someone"
+  (clingon:make-command
+   :name "{{ project }}"
+   :description "{{ project }}"
+   :version "0.1.0"
+   :handler #'top-level/handler
+   :sub-commands (list (greet/command))))
+
+
+;; -- main ---------------------------------------------------------------------
+
+(defun main ()
+  "The main entrypoint of our CLI program"
+  (let ((app (top-level/command)))
+    (clingon:run app)))

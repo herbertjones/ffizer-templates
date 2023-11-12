@@ -1,0 +1,36 @@
+# ReadMe
+
+## Requirements
+
+* [ocicl](https://github.com/ocicl/ocicl)
+* [peru](https://github.com/buildinspace/peru)
+* [just](https://github.com/casey/just)
+* [sbcl](https://sbcl.org/)
+
+
+## Dependencies
+
+### Installation
+
+This will install current dependencies of the project to their saved versions.
+
+```sh
+just install-deps
+```
+
+### Update dependencies 
+
+This will update all dependencies and install them.
+
+```sh
+just update-deps
+```
+
+## Running as interpreted script
+
+The file `{{ project }}-i` will run the cli module's main function.
+
+
+## Building
+
+The `build` command will create a binary named `{{ project }}` that will have the script dumped for fast execution.

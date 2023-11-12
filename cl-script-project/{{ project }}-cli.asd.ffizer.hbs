@@ -1,0 +1,15 @@
+(defsystem "{{ project }}-cli"
+  :name "{{ project }}-cli"
+  :version "0.0.1"
+
+  :class :package-inferred-system
+  :pathname "cli"
+
+  :depends-on ("{{ project }}"
+               "clingon"
+
+               "{{ project }}-cli/module")
+
+  :build-operation "program-op"
+  :build-pathname "../{{ project }}"
+  :entry-point "{{ project }}-cli:main")

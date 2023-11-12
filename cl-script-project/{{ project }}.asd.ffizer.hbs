@@ -1,0 +1,27 @@
+(defsystem "{{ project }}"
+  :name "{{ project }}"
+  :version "0.0.1"
+
+  :class :package-inferred-system
+  :pathname "src"
+
+  :depends-on (;; "alexandria"
+               ;; "arrow-macros"
+               ;; "cl-interpol"
+               ;; "closer-mop"
+               ;; "cl-ppcre"
+               ;; "cmd"
+               ;; "com.inuoe.jzon"
+               ;; "iterate"
+               ;; "local-time"
+               ;; "lparallel"
+               ;; "osicat"
+               ;; "static-dispatch"
+               ;; "str"
+               ;; "sycamore"
+               ;; "trivia"
+
+               "{{ project }}/module")
+  ;; :in-order-to ((test-op (test-op :{{ project }}.test)))
+  )
+(register-system-packages "alexandria" '(:alexandria-2))

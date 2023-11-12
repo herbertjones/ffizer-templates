@@ -1,0 +1,18 @@
+#!/usr/bin/env -S sbcl --script
+; -*-Lisp-*-
+(in-package #:cl-user)
+(require :uiop)
+(let ((dir-names (make-hash-table :test #'equal)))
+  (with-open-file (stream (uiop:native-namestring "~/.local/share/ocicl/systems.csv")
+                          :external-format :utf-8)
+    (loop :for line := (read-line stream nil)
+          :while line
+          :do (let ((parts (uiop:split-string line :separator ",")))
+                (when (and parts (<= 2 (length parts)))
+                  (setf (gethash (elt (uiop:split-string (cl:string-trim " " (elt parts 2)) :separator "/") 0) dir-names) t)))))
+  (loop :for full-dir-path :in (uiop:subdirectories (uiop:native-namestring "~/.local/share/ocicl/systems/"))
+        :for dir-name := (first (last (cl:pathname-directory full-dir-path)))
+        :unless (gethash dir-name dir-names)
+          :do (progn
+                (format t "Deleting ~A~%" full-dir-path)
+                (uiop:delete-directory-tree full-dir-path :validate t))))
