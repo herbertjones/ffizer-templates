@@ -1,11 +1,11 @@
-(uiop:define-package #:{{ project }}-cli
-  (:nicknames #:{{ project }}-cli/module)
+(uiop:define-package #:{{ project }}/cli
+  (:nicknames #:{{ project }}/cli/module)
   (:use)
   (:mix #:cl)
   (:export
    #:main)
-  (:documentation "Common line interface for {{ project }}."))
-(cl:in-package #:{{ project }}-cli)
+  (:documentation "Command line interface for {{ project }}."))
+(cl:in-package #:{{ project }}/cli)
 
 ;; -- greet --------------------------------------------------------------------
 

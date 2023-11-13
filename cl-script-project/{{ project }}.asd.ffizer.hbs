@@ -3,7 +3,6 @@
   :version "0.0.1"
 
   :class :package-inferred-system
-  :pathname "src"
 
   :depends-on (;; "alexandria"
                ;; "arrow-macros"
@@ -21,6 +20,35 @@
                ;; "sycamore"
                ;; "trivia"
 
-               "{{ project }}/module")
+               "{{ project }}/src/module")
   :in-order-to ((test-op (test-op :{{ project }}.test))))
+
+(defsystem "{{ project }}/cli"
+  :name "{{ project }} cli"
+  :version "0.0.1"
+
+  :class :package-inferred-system
+
+  :depends-on ("{{ project }}"
+               "clingon"
+
+               "{{ project }}/cli/module")
+
+  :build-operation "program-op"
+  :build-pathname "{{ project }}"
+  :entry-point "{{ project }}/cli:main")
+
+(defsystem "{{ project }}/test"
+  :name "{{ project }} test"
+  :version "0.0.1"
+
+  :class :package-inferred-system
+
+  :depends-on ("{{ project }}"
+               "parachute"
+               "{{ project }}/tests/{{ project }}/module")
+  :perform (asdf:test-op (op c)
+                         (uiop:symbol-call :parachute :test
+                                           :{{ project }}/test)))
+
 (register-system-packages "alexandria" '(:alexandria-2))

@@ -11,7 +11,7 @@
      (:tree ,(merge-pathnames "peru-managed-systems/" path))
      (:tree ,(merge-pathnames "systems/" path)))))
 
-(asdf:load-asd "{{ project }}.test.asd")
-(asdf:require-system :{{ project }}.test)
+(asdf:require-system :{{ project }})
+(asdf:require-system :{{ project }}/test)
 
-(asdf:test-system '{{ project }}.test)
+(asdf:test-system '{{ project }}/test)

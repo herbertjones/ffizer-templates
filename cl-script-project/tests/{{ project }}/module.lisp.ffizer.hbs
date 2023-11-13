@@ -1,10 +1,10 @@
-(uiop:define-package #:{{ project }}.test
-  (:nicknames #:{{ project }}.test/module)
+(uiop:define-package #:{{ project }}/test
+  (:nicknames #:{{ project }}/tests/module)
   (:use)
   (:mix #:cl #:parachute)
   (:export)
   (:documentation "Top level tests for {{ project }}."))
-(cl:in-package #:{{ project }}.test)
+(cl:in-package #:{{ project }}/test)
 
 (define-test "sanity-check"
   (is = 2 (+ 1 1)))
