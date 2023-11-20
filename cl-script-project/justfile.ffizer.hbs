@@ -14,5 +14,9 @@ update-deps:
 build:
     ./build
 
+clean:
+    rm ./{{ project }}
+    ln -s ./{{ project }}-i ./{{ project }}
+
 test:
     ./test

@@ -1,7 +1,5 @@
-(uiop:define-package #:{{ project }}/test
-  (:nicknames #:{{ project }}/tests/module)
-  (:use)
-  (:mix #:cl #:parachute)
+(cl:defpackage #:{{ project }}/test
+  (:use #:cl #:parachute)
   (:export)
   (:documentation "Top level tests for {{ project }}."))
 (cl:in-package #:{{ project }}/test)

@@ -1,7 +1,5 @@
-(uiop:define-package #:{{ project }}/cli
-  (:nicknames #:{{ project }}/cli/module)
-  (:use)
-  (:mix #:cl)
+(cl:defpackage #:{{ project }}/cli
+  (:use #:cl)
   (:export
    #:main)
   (:documentation "Command line interface for {{ project }}."))

@@ -1,7 +1,5 @@
-(uiop:define-package #:{{ project }}
-                     (:nicknames #:{{ project }}/src/module)
-                     (:use)
-                     (:mix #:cl)
-                     (:export)
-                     (:documentation "Top level file for {{ project }}."))
+(cl:defpackage #:{{ project }}
+  (:use #:cl)
+  (:export)
+  (:documentation "Top level file for {{ project }}."))
 (cl:in-package #:{{ project }})
