@@ -8,6 +8,7 @@
                ;; #:closer-mop
                ;; #:cl-ppcre
                ;; #:cmd
+               ;; #:coalton
                ;; #:com.inuoe.jzon
                ;; #:iterate
                ;; #:local-time
@@ -20,7 +21,8 @@
                )
   :pathname "src"
   :serial t
-  :components ((:file "package"))
+  :components ((:file "main")
+               (:file "module"))
   :in-order-to ((test-op (test-op :{{ project }}/test))))
 
 
@@ -31,7 +33,8 @@
                #:clingon)
   :pathname "cli"
   :serial t
-  :components ((:file "package"))
+  :components ((:file "main")
+               (:file "module"))
   :build-operation "program-op"
   :build-pathname "../{{ project }}"
   :entry-point "{{ project }}/cli:main")
@@ -44,7 +47,8 @@
                #:parachute)
   :pathname "tests/{{ project }}"
   :serial t
-  :components ((:file "package"))
+  :components ((:file "package")
+               (:file "main"))
   :perform (asdf:test-op (op c)
                          (uiop:symbol-call :parachute :test
                                            :{{ project }}/test)))

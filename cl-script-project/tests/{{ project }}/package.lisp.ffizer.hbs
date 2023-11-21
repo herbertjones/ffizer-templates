@@ -1,8 +1,3 @@
 (cl:defpackage #:{{ project }}/test
   (:use #:cl #:parachute)
-  (:export)
-  (:documentation "Top level tests for {{ project }}."))
-(cl:in-package #:{{ project }}/test)
-
-(define-test "sanity-check"
-  (is = 2 (+ 1 1)))
+  (:documentation "Package file for tests for {{ project }}."))
