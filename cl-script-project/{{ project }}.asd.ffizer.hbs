@@ -20,7 +20,7 @@
                )
   :pathname "src"
   :serial t
-  :components ((:file "module"))
+  :components ((:file "package"))
   :in-order-to ((test-op (test-op :{{ project }}/test))))
 
 
@@ -31,7 +31,7 @@
                #:clingon)
   :pathname "cli"
   :serial t
-  :components ((:file "module"))
+  :components ((:file "package"))
   :build-operation "program-op"
   :build-pathname "../{{ project }}"
   :entry-point "{{ project }}/cli:main")
@@ -44,7 +44,7 @@
                #:parachute)
   :pathname "tests/{{ project }}"
   :serial t
-  :components ((:file "module"))
+  :components ((:file "package"))
   :perform (asdf:test-op (op c)
                          (uiop:symbol-call :parachute :test
                                            :{{ project }}/test)))
