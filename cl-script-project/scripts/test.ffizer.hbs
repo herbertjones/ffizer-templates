@@ -3,7 +3,7 @@
 (cl:require :asdf)
 (asdf:require-system 'uiop)
 
-(let ((path (cl:directory-namestring cl:*load-truename*)))
+(let ((path (uiop:pathname-parent-directory-pathname cl:*load-truename*)))
   (asdf:initialize-source-registry
    `(:source-registry
      :ignore-inherited-configuration

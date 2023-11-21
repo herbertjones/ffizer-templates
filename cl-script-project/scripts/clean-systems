@@ -2,7 +2,7 @@
 ; -*-Lisp-*-
 (in-package #:cl-user)
 (require :uiop)
-(let ((this-directory-path (cl:directory-namestring cl:*load-truename*))
+(let ((this-directory-path (uiop:pathname-parent-directory-pathname cl:*load-truename*))
       (dir-names (make-hash-table :test #'equal)))
   (with-open-file (stream (merge-pathnames "systems.csv" this-directory-path)
                           :external-format :utf-8)

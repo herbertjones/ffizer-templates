@@ -4,19 +4,25 @@ list:
 install-deps:
     peru sync
     ocicl install
-    ./clean-systems
+    ./scripts/clean-systems
 
 update-deps:
     peru reup
     ocicl latest
-    ./clean-systems
+    ./scripts/clean-systems
 
-build:
-    ./build
+build: clean
+    -rm ./{{ project }}
+    ./scripts/build
 
 clean:
-    rm ./{{ project }}
-    ln -s ./{{ project }}-i ./{{ project }}
+    -rm ./{{ project }}
+    -rm -rf ./build/src/
+    -rm -rf ./build/cli/
+
+clean-all:
+    -rm ./{{ project }}
+    -rm -rf ./build/
 
 test:
-    ./test
+    ./scripts/test
