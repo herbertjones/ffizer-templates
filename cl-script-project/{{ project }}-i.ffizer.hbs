@@ -1,15 +1,20 @@
 #!/usr/bin/env -S sbcl --script
 ; -*-Lisp-*-
 (cl:require :asdf)
+(asdf:disable-output-translations)
 (asdf:require-system 'uiop)
 
-(let ((path (cl:directory-namestring cl:*load-truename*)))
+(let* ((path (cl:directory-namestring cl:*load-truename*))
+       (output-root-dir (cl:merge-pathnames "build/interactive/**/*.fasl" path)))
+  (asdf:initialize-output-translations
+   `(:output-translations (:here ,output-root-dir)
+     :disable-cache :ignore-inherited-configuration))
   (asdf:initialize-source-registry
    `(:source-registry
      :ignore-inherited-configuration
      (:directory ,path)
-     (:tree ,(merge-pathnames "peru-managed-systems/" path))
-     (:tree ,(merge-pathnames "systems/" path)))))
+     (:tree ,(cl:merge-pathnames "peru-managed-systems/" path))
+     (:tree ,(cl:merge-pathnames "systems/" path)))))
 
 ;; Suppress obnoxious "Computing Hangul syllable names"
 ;; (with-output-to-string (*standard-output*)

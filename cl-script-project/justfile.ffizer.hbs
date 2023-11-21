@@ -1,4 +1,4 @@
-list:
+@list:
     just --list
 
 install-deps:
@@ -11,16 +11,16 @@ update-deps:
     ocicl latest
     ./scripts/clean-systems
 
-build: clean
+@build: clean
     -rm ./{{ project }}
     ./scripts/build
 
-clean:
+@clean:
     -rm ./{{ project }}
-    -rm -rf ./build/src/
-    -rm -rf ./build/cli/
+    -rm -rf ./build/release/src/
+    -rm -rf ./build/release/cli/
 
-clean-all:
+@clean-all:
     -rm ./{{ project }}
     -rm -rf ./build/
 

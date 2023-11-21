@@ -1,19 +1,20 @@
 #!/usr/bin/env -S sbcl --script
 ; -*-Lisp-*-
 (cl:require :asdf)
+(asdf:disable-output-translations)
 (asdf:require-system 'uiop)
 
 (let* ((path (uiop:pathname-parent-directory-pathname cl:*load-truename*))
-       (output-root-dir (merge-pathnames "build/**/*.fasl" path)))
+       (output-root-dir (cl:merge-pathnames "build/release/**/*.fasl" path)))
   (asdf:initialize-output-translations
-   `(:output-translations (:here ,output-root-dir)
+   `(:output-translations (,(cl:namestring path) ,output-root-dir)
      :disable-cache :ignore-inherited-configuration))
   (asdf:initialize-source-registry
    `(:source-registry
      :ignore-inherited-configuration
      (:directory ,path)
-     (:tree ,(merge-pathnames "peru-managed-systems/" path))
-     (:tree ,(merge-pathnames "systems/" path)))))
+     (:tree ,(cl:merge-pathnames "peru-managed-systems/" path))
+     (:tree ,(cl:merge-pathnames "systems/" path)))))
 
 (asdf:require-system :{{ project }})
 (asdf:require-system :{{ project }}/cli)
