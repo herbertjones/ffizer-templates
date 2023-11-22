@@ -1,16 +1,24 @@
 #!/usr/bin/env -S sbcl --script
 ; -*-Lisp-*-
 (cl:require :asdf)
-(asdf:disable-output-translations)
 (asdf:require-system 'uiop)
 
+;; When building, compile all fasl files under build/interactive/IMPL
 (let* ((path (cl:directory-namestring cl:*load-truename*))
-       (output-root-dir (cl:merge-pathnames "build/interactive/**/*.fasl" path)))
+       (build-relative-subdir (cl:make-pathname
+                               :directory (list :relative "build" "interactive"
+                                                (asdf:implementation-identifier))))
+       (build-absolute-subdir (cl:merge-pathnames build-relative-subdir path))
+       (output-root-dir (cl:merge-pathnames "**/*.fasl" build-absolute-subdir)))
   (asdf:initialize-output-translations
+   ;; Use :here to use relative paths in build directory starting from current
+   ;; directory.
    `(:output-translations (:here ,output-root-dir)
      :disable-cache :ignore-inherited-configuration))
+  ;; Setup where dependencies are searched.
   (asdf:initialize-source-registry
    `(:source-registry
+     ;; Don't use dependencies from other directories
      :ignore-inherited-configuration
      (:directory ,path)
      (:tree ,(cl:merge-pathnames "peru-managed-systems/" path))

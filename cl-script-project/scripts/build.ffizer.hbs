@@ -1,16 +1,31 @@
 #!/usr/bin/env -S sbcl --script
 ; -*-Lisp-*-
 (cl:require :asdf)
-(asdf:disable-output-translations)
 (asdf:require-system 'uiop)
 
+;; Turn on core compression on SBCL.  This will result a smaller, compressed
+;; binary.  Remove this code to disable this feature.
+#+sb-core-compression
+(defmethod asdf:perform ((o asdf:image-op) (c asdf:system))
+  (uiop:dump-image (asdf:output-file o c) :executable t :compression t))
+
+;; When building, compile all fasl files under build/release/IMPL
 (let* ((path (uiop:pathname-parent-directory-pathname cl:*load-truename*))
-       (output-root-dir (cl:merge-pathnames "build/release/**/*.fasl" path)))
+       (build-relative-subdir (cl:make-pathname
+                               :directory (list :relative "build" "release"
+                                                (asdf:implementation-identifier))))
+       (build-absolute-subdir (cl:merge-pathnames build-relative-subdir path))
+       (output-root-dir (cl:merge-pathnames "**/*.fasl" build-absolute-subdir)))
   (asdf:initialize-output-translations
+   ;; Use namestring here of the project path so directories inside of
+   ;; build/release end up being src, cli, systems... instead of starting from
+   ;; /home/...
    `(:output-translations (,(cl:namestring path) ,output-root-dir)
      :disable-cache :ignore-inherited-configuration))
+  ;; Setup where dependencies are searched.
   (asdf:initialize-source-registry
    `(:source-registry
+     ;; Don't use dependencies from other directories
      :ignore-inherited-configuration
      (:directory ,path)
      (:tree ,(cl:merge-pathnames "peru-managed-systems/" path))
