@@ -9,7 +9,7 @@
                                :directory (list :relative "build" "interactive"
                                                 (asdf:implementation-identifier))))
        (build-absolute-subdir (cl:merge-pathnames build-relative-subdir path))
-       (output-root-dir (cl:merge-pathnames "**/*.fasl" build-absolute-subdir)))
+       (output-root-dir (cl:merge-pathnames "**/*.*" build-absolute-subdir)))
   (asdf:initialize-output-translations
    ;; Use :here to use relative paths in build directory starting from current
    ;; directory.

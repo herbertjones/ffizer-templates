@@ -9,7 +9,7 @@
                                :directory (list :relative "build" "interactive"
                                                 (asdf:implementation-identifier))))
        (build-absolute-subdir (cl:merge-pathnames build-relative-subdir path))
-       (output-root-dir (cl:merge-pathnames "**/*.fasl" build-absolute-subdir)))
+       (output-root-dir (cl:merge-pathnames "**/*.*" build-absolute-subdir)))
   (asdf:initialize-output-translations
    ;; Use namestring here of the project path so directories inside of
    ;; build/release end up being src, cli, systems... instead of starting from
