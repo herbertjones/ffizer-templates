@@ -10,17 +10,13 @@
   (uiop:dump-image (asdf:output-file o c) :executable t :compression t))
 
 ;; When building, compile all fasl files under build/release/IMPL
-(let* ((path (uiop:pathname-parent-directory-pathname cl:*load-truename*))
-       (build-relative-subdir (cl:make-pathname
-                               :directory (list :relative "build" "release"
-                                                (asdf:implementation-identifier))))
-       (build-absolute-subdir (cl:merge-pathnames build-relative-subdir path))
-       (output-root-dir (cl:merge-pathnames "**/*.*" build-absolute-subdir)))
+(let ((path (uiop:pathname-parent-directory-pathname cl:*load-truename*)))
   (asdf:initialize-output-translations
    ;; Use namestring here of the project path so directories inside of
    ;; build/release end up being src, cli, systems... instead of starting from
    ;; /home/...
-   `(:output-translations (,(cl:namestring path) ,output-root-dir)
+   `(:output-translations ((,path :**/ :*.*.*)
+                           (,path "build" "release" :implementation :**/ :*.*.*))
      :disable-cache :ignore-inherited-configuration))
   ;; Setup where dependencies are searched.
   (asdf:initialize-source-registry
