@@ -8,7 +8,8 @@
   (asdf:initialize-output-translations
    ;; Use :here to use relative paths in build directory starting from current
    ;; directory.
-   `(:output-translations (:here (,path "build" "interactive" :implementation :**/ :*.*.*))
+   `(:output-translations ((,path :**/ :*.*.*)
+                           (,path "build" "interactive" :implementation :**/ :*.*.*))
      :disable-cache :ignore-inherited-configuration))
   ;; Setup where dependencies are searched.
   (asdf:initialize-source-registry
