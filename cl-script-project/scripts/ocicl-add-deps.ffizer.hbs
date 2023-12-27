@@ -1,0 +1,30 @@
+#!/usr/bin/env -S sbcl --script
+; -*-Lisp-*-
+(cl:require :asdf)
+(asdf:require-system 'uiop)
+
+;; When building, compile all fasl files under build/interactive/IMPL
+(let ((path (uiop:pathname-parent-directory-pathname cl:*load-truename*)))
+  (asdf:initialize-output-translations
+   ;; Build dir relative paths should match relative paths starting from project
+   ;; root.
+   `(:output-translations ((,path :**/ :*.*.*)
+                           (,path "build" "interactive" :implementation :**/ :*.*.*))
+     :disable-cache :ignore-inherited-configuration))
+  (asdf:initialize-source-registry
+   `(:source-registry
+     ;; Don't use dependencies from other directories
+     :ignore-inherited-configuration
+     (:directory ,path)
+     (:tree ,(cl:merge-pathnames "peru-managed-systems/" path))
+     (:tree ,(cl:merge-pathnames "systems/" path)))))
+
+;; Use ocicl
+(cl:let* ((ocicl-runtime-path (cl:merge-pathnames ".local/share/ocicl/ocicl-runtime.lisp"
+                                                  (cl:user-homedir-pathname)))
+          (load-path (cl:probe-file ocicl-runtime-path)))
+  (cl:load load-path))
+
+(asdf:require-system :{{ project }})
+(asdf:require-system :{{ project }}/cli)
+(asdf:require-system :{{ project }}/test)

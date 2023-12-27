@@ -11,6 +11,9 @@ update-deps:
     ocicl latest
     ./scripts/clean-systems
 
+ocicl-add-deps:
+    ./scripts/ocicl-add-deps
+
 @build: clean
     -rm ./{{ project }}
     ./scripts/build
